@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:foregroundGravity="center"
+    tools:context=".LoginActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="186.7dp"
+                android:src="@drawable/logo"></ImageView>
+
+
+            <EditText
+                android:id="@+id/edit_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="34.5dp"
+                android:background="@drawable/edit_id"
+                android:hint="ID"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textColorHint="@color/colorDarkBlue" />
+
+            <EditText
+                android:id="@+id/edit_pw"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="34.5dp"
+                android:background="@drawable/edit_id"
+                android:hint="Pass"
+                android:textColorHint="@color/colorDarkBlue"
+                android:singleLine="true"
+                android:textColor="@color/black" />
+
+            <RelativeLayout
+                android:id="@+id/loginactivity_btn_login"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="130dp"
+                android:layout_marginRight="130dp"
+                android:layout_marginTop="34.5dp"
+                android:background="@drawable/login_btn"
+                android:gravity="center">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nanum_square_round_r"
+                    android:textStyle="normal"
+                    android:textSize="25sp"
+                    android:textColor="#4c4948"
+                    android:lineSpacingExtra="3.3sp"
+                    android:text="로 그 인"
+                    />
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

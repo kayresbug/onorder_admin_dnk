@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PaymentActivity">
+
+    <ImageView
+        android:id="@+id/menu_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/menu_3_fill"
+        android:layout_marginTop="29.3dp"
+        android:layout_marginRight="35.3dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+    </ImageView>
+    <ImageView
+        android:id="@+id/tb1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/touchbox"
+        app:layout_constraintBottom_toBottomOf="@id/menu_3"
+        app:layout_constraintLeft_toLeftOf="@id/menu_3"
+        app:layout_constraintRight_toRightOf="@id/menu_3"
+        app:layout_constraintTop_toTopOf="@id/menu_3"></ImageView>
+
+    # 타이틀 : 집계관리
+    <TextView
+        android:id="@+id/text_title1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nanum_square_round_b"
+        android:textStyle="normal"
+        android:textSize="24sp"
+        android:textColor="#8e8e8e"
+        android:gravity="center_horizontal"
+        android:layout_marginLeft="33.3dp"
+        android:layout_marginTop="64dp"
+        android:text="집계관리"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    # 달력 아이콘 : 터치이벤트는 id:cal_touch 사용
+    <ImageView
+        android:id="@+id/calbox"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:background="@drawable/menu_box1_ce"
+        android:layout_marginTop="110.7dp"
+        android:layout_marginLeft="33.3dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"></ImageView>
+    <ImageView
+        android:layout_width="21.6dp"
+        android:layout_height="21.6dp"
+        android:background="@drawable/calendar_todo_fill"
+        android:layout_marginTop="7.2dp"
+        android:layout_marginLeft="7.2dp"
+        app:layout_constraintLeft_toLeftOf="@id/calbox"
+        app:layout_constraintTop_toTopOf="@id/calbox"></ImageView>
+    <ImageView
+        android:id="@+id/cal_touch"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/touchbox"
+        app:layout_constraintBottom_toBottomOf="@id/calbox"
+        app:layout_constraintLeft_toLeftOf="@id/calbox"
+        app:layout_constraintRight_toRightOf="@id/calbox"
+        app:layout_constraintTop_toTopOf="@id/calbox"></ImageView>
+
+    # 날짜 표시 창 박스
+    <ImageView
+        android:id="@+id/datebox"
+        android:layout_width="241.3dp"
+        android:layout_height="36dp"
+        android:background="@drawable/menu_box1_ce"
+        android:layout_marginTop="110.7dp"
+        android:layout_marginLeft="4.7dp"
+        app:layout_constraintLeft_toRightOf="@id/calbox"
+        app:layout_constraintTop_toTopOf="parent"></ImageView>
+
+    # 추가 아이콘 (+) : 터치 이벤트 id : call_addtouch 사용
+    <ImageView
+        android:id="@+id/add_icon"
+        android:layout_width="36.7dp"
+        android:layout_height="36.7dp"
+        android:background="@drawable/add_circle_line"
+        android:layout_marginTop="110.7dp"
+        android:layout_marginRight="33.3dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"></ImageView>
+    <ImageView
+        android:id="@+id/add_touch"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/touchbox"
+        app:layout_constraintBottom_toBottomOf="@id/add_icon"
+        app:layout_constraintLeft_toLeftOf="@id/add_icon"
+        app:layout_constraintRight_toRightOf="@id/add_icon"
+        app:layout_constraintTop_toTopOf="@id/add_icon"></ImageView>
+
+    # 가운데
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="181.3dp"
+        android:background="#6E4545"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/paymentactivity_recycler_body"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+    </LinearLayout>
+
+    # 맨 아래 메뉴 박스
+    <ImageView
+        android:id="@+id/bottom_menu_box"
+        android:layout_width="466.7dp"
+        android:layout_height="80dp"
+        android:background="@drawable/home_top_menu1"
+        android:layout_marginBottom="13.3dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"></ImageView>
+    # 첫번째 메뉴 : 터치 이벤트는 id : bottom_menu1_tc 사용
+    <ImageView
+        android:id="@+id/bottom_menu1"
+        android:layout_width="30.7dp"
+        android:layout_height="30.7dp"
+        android:background="@drawable/bottom_menu1"
+        android:layout_marginTop="23.5dp"
+        android:layout_marginLeft="53.3dp"
+        app:layout_constraintLeft_toLeftOf="@id/bottom_menu_box"
+        app:layout_constraintTop_toTopOf="@id/bottom_menu_box"></ImageView>
+    <ImageView
+        android:id="@+id/bottom_menu1_tc"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/touchbox"
+        app:layout_constraintBottom_toBottomOf="@id/bottom_menu1"
+        app:layout_constraintLeft_toLeftOf="@id/bottom_menu1"
+        app:layout_constraintRight_toRightOf="@id/bottom_menu1"
+        app:layout_constraintTop_toTopOf="@id/bottom_menu1"></ImageView>
+
+    # 두번째 메뉴 : 터치 이벤트는 id : bottom_menu2_tc 사용
+    <ImageView
+        android:id="@+id/bottom_menu2"
+        android:layout_width="30.7dp"
+        android:layout_height="30.7dp"
+        android:background="@drawable/bottom_menu2"
+        android:layout_marginTop="23.5dp"
+        android:layout_marginLeft="163.3dp"
+        app:layout_constraintLeft_toLeftOf="@id/bottom_menu_box"
+        app:layout_constraintTop_toTopOf="@id/bottom_menu_box"></ImageView>
+    <ImageView
+        android:id="@+id/bottom_menu2_tc"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/touchbox"
+        app:layout_constraintBottom_toBottomOf="@id/bottom_menu2"
+        app:layout_constraintLeft_toLeftOf="@id/bottom_menu2"
+        app:layout_constraintRight_toRightOf="@id/bottom_menu2"
+        app:layout_constraintTop_toTopOf="@id/bottom_menu2"></ImageView>
+
+    # 세번째 메뉴 : 터치 이벤트는 id : bottom_menu3_tc 사용
+    <ImageView
+        android:id="@+id/bottom_menu3"
+        android:layout_width="30.7dp"
+        android:layout_height="30.7dp"
+        android:background="@drawable/bottom_menu3"
+        android:layout_marginTop="23.5dp"
+        android:layout_marginLeft="273.3dp"
+        app:layout_constraintLeft_toLeftOf="@id/bottom_menu_box"
+        app:layout_constraintTop_toTopOf="@id/bottom_menu_box"></ImageView>
+    <ImageView
+        android:id="@+id/bottom_menu3_tc"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/touchbox"
+        app:layout_constraintBottom_toBottomOf="@id/bottom_menu3"
+        app:layout_constraintLeft_toLeftOf="@id/bottom_menu3"
+        app:layout_constraintRight_toRightOf="@id/bottom_menu3"
+        app:layout_constraintTop_toTopOf="@id/bottom_menu3"></ImageView>
+
+    # 네번째 메뉴 : 터치 이벤트는 id : bottom_menu4_tc 사용
+    <ImageView
+        android:id="@+id/bottom_menu4"
+        android:layout_width="30.7dp"
+        android:layout_height="30.7dp"
+        android:background="@drawable/bottom_menu4"
+        android:layout_marginTop="23.5dp"
+        android:layout_marginLeft="383.3dp"
+        app:layout_constraintLeft_toLeftOf="@id/bottom_menu_box"
+        app:layout_constraintTop_toTopOf="@id/bottom_menu_box"></ImageView>
+    <ImageView
+        android:id="@+id/bottom_menu4_tc"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/touchbox"
+        app:layout_constraintBottom_toBottomOf="@id/bottom_menu4"
+        app:layout_constraintLeft_toLeftOf="@id/bottom_menu4"
+        app:layout_constraintRight_toRightOf="@id/bottom_menu4"
+        app:layout_constraintTop_toTopOf="@id/bottom_menu4"></ImageView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
