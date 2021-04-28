@@ -150,7 +150,7 @@ public class LoginActivity extends AppCompatActivity {
     public void setFcm(String fcm_id) throws Exception {
         Log.d("daon_test", "printer1 = "+printer.getPrinterStatus());
         Log.d("daon_test", "printer2 = "+printer2.getPrinterStatus());
-//        if (printer.getPrinterStatus() != null) {
+        if (printer.getPrinterStatus() != null) {
             String str_id = "dncsh";
             String str_pass = "1234";
             Retrofit retrofit = new Retrofit.Builder()
@@ -178,9 +178,9 @@ public class LoginActivity extends AppCompatActivity {
                     Log.d("daon", "fail = " + t.getMessage());
                 }
             });
-//        }else{
-//            setPrinter();
-//        }
+        }else{
+            setPrinter();
+        }
     }
     public void setPrinter(){
         app = new AdminApplication();

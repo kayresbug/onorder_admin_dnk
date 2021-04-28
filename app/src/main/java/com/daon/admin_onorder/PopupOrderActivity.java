@@ -125,24 +125,24 @@ public class PopupOrderActivity extends AppCompatActivity {
             m_hash.put("Authdate", prevAuthDate.getBytes());
         }
         Sam4sPrint sam4sPrint = app.getPrinter();
-        try {
-            Log.d("daon_test","print ="+sam4sPrint.getPrinterStatus());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
-        if(app.IsConnected1()==false)
-        {
-            Sam4sPrint sam4sPrint1 = app.getPrinter();
-            try {
-                sam4sPrint1.openPrinter(Sam4sPrint.DEVTYPE_ETHERNET, "192.168.1.100", 9100);
-                Thread.sleep(300);
-            } catch (Exception exception) {
-                exception.printStackTrace();
-            }
-            app.setPrinter(sam4sPrint1);
-        }
+//        try {
+//            Log.d("daon_test","print ="+sam4sPrint.getPrinterStatus());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//
+//        if(app.IsConnected1()==false)
+//        {
+//            Sam4sPrint sam4sPrint1 = app.getPrinter();
+//            try {
+//                sam4sPrint1.openPrinter(Sam4sPrint.DEVTYPE_ETHERNET, "192.168.1.100", 9100);
+//                Thread.sleep(300);
+//            } catch (Exception exception) {
+//                exception.printStackTrace();
+//            }
+//            app.setPrinter(sam4sPrint1);
+//        }
 
         sam4sPrint = app.getPrinter();
 
@@ -245,7 +245,7 @@ public class PopupOrderActivity extends AppCompatActivity {
             builder.addText("감사합니다.");
             builder.addCut(Sam4sBuilder.CUT_FEED);
             sam4sPrint.sendData(builder);
-            sam4sPrint.closePrinter();
+//            sam4sPrint.closePrinter();
 
         } catch (Exception e) {
             e.printStackTrace();

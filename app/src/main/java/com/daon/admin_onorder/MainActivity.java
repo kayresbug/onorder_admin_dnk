@@ -191,28 +191,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void print(PrintOrderModel printOrderModel){
-        if(app.IsConnected1()==false)
-        {
-            Sam4sPrint sam4sPrint1 = app.getPrinter();
-            try {
-                sam4sPrint1.openPrinter(Sam4sPrint.DEVTYPE_ETHERNET, "192.168.0.100", 9100);
-                Thread.sleep(300);
-            } catch (Exception exception) {
-                exception.printStackTrace();
-            }
-            app.setPrinter(sam4sPrint1);
-        }
-        if(app.IsConnected2()==false)
-        {
-            Sam4sPrint sam4sPrint2 = app.getPrinter2();
-            try {
-                sam4sPrint2.openPrinter(Sam4sPrint.DEVTYPE_ETHERNET, "192.168.0.101", 9100);
-                Thread.sleep(300);
-            } catch (Exception exception) {
-                exception.printStackTrace();
-            }
-            app.setPrinter2(sam4sPrint2);
-        }
+//        if(app.IsConnected1()==false)
+//        {
+//            Sam4sPrint sam4sPrint1 = app.getPrinter();
+//            try {
+//                sam4sPrint1.openPrinter(Sam4sPrint.DEVTYPE_ETHERNET, "192.168.0.100", 9100);
+//                Thread.sleep(300);
+//            } catch (Exception exception) {
+//                exception.printStackTrace();
+//            }
+//            app.setPrinter(sam4sPrint1);
+//        }
+//        if(app.IsConnected2()==false)
+//        {
+//            Sam4sPrint sam4sPrint2 = app.getPrinter2();
+//            try {
+//                sam4sPrint2.openPrinter(Sam4sPrint.DEVTYPE_ETHERNET, "192.168.0.101", 9100);
+//                Thread.sleep(300);
+//            } catch (Exception exception) {
+//                exception.printStackTrace();
+//            }
+//            app.setPrinter2(sam4sPrint2);
+//        }
 
         Sam4sPrint sam4sPrint = app.getPrinter();
         Sam4sPrint sam4sPrint2 = app.getPrinter2();
@@ -248,8 +248,8 @@ public class MainActivity extends AppCompatActivity {
             }
             MediaPlayer mp = MediaPlayer.create(getApplicationContext(), R.raw.bell);
             mp.start();
-            sam4sPrint.closePrinter();
-            sam4sPrint2.closePrinter();
+//            sam4sPrint.closePrinter();
+//            sam4sPrint2.closePrinter();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -280,17 +280,17 @@ public class MainActivity extends AppCompatActivity {
 
     public void print2(PrintOrderModel printOrderModel){
 
-        if(app.IsConnected1()==false)
-        {
-            Sam4sPrint sam4sPrint1 = app.getPrinter();
-            try {
-                sam4sPrint1.openPrinter(Sam4sPrint.DEVTYPE_ETHERNET, "192.168.0.100", 9100);
-                Thread.sleep(300);
-            } catch (Exception exception) {
-                exception.printStackTrace();
-            }
-            app.setPrinter(sam4sPrint1);
-        }
+//        if(app.IsConnected1()==false)
+//        {
+//            Sam4sPrint sam4sPrint1 = app.getPrinter();
+//            try {
+//                sam4sPrint1.openPrinter(Sam4sPrint.DEVTYPE_ETHERNET, "192.168.0.100", 9100);
+//                Thread.sleep(300);
+//            } catch (Exception exception) {
+//                exception.printStackTrace();
+//            }
+//            app.setPrinter(sam4sPrint1);
+//        }
         Sam4sPrint sam4sPrint = app.getPrinter();
         String[] orderArr = printOrderModel.getOrder().split("###");
         Log.d("daon_test", orderArr[0]);
@@ -413,7 +413,7 @@ public class MainActivity extends AppCompatActivity {
             builder.addText("감사합니다.");
             builder.addCut(Sam4sBuilder.CUT_FEED);
             sam4sPrint.sendData(builder);
-            sam4sPrint.closePrinter();
+//            sam4sPrint.closePrinter();
 
         } catch (Exception e) {
             e.printStackTrace();
