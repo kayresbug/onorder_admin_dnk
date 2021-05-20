@@ -124,7 +124,8 @@ public class PopupOrderActivity extends AppCompatActivity {
             m_hash.put("AuthNum", prevAuthNum.getBytes());
             m_hash.put("Authdate", prevAuthDate.getBytes());
         }
-        Sam4sPrint sam4sPrint = app.getPrinter();
+        Sam4sPrint sam4sPrint = new Sam4sPrint();
+        isPrinter isPrinter = new isPrinter();
 //        try {
 //            Log.d("daon_test","print ="+sam4sPrint.getPrinterStatus());
 //        } catch (Exception e) {
@@ -144,7 +145,7 @@ public class PopupOrderActivity extends AppCompatActivity {
 //            app.setPrinter(sam4sPrint1);
 //        }
 
-        sam4sPrint = app.getPrinter();
+        sam4sPrint = isPrinter.setPrinter1();
 
         Sam4sBuilder builder = new Sam4sBuilder("ELLIX30", Sam4sBuilder.LANG_KO);
         try {
@@ -245,7 +246,7 @@ public class PopupOrderActivity extends AppCompatActivity {
             builder.addText("감사합니다.");
             builder.addCut(Sam4sBuilder.CUT_FEED);
             sam4sPrint.sendData(builder);
-//            sam4sPrint.closePrinter();
+            isPrinter.closePrint1(sam4sPrint);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -304,11 +305,14 @@ public class PopupOrderActivity extends AppCompatActivity {
             }else{
                 Log.d("daon tet" , "adfadfaf");
             }
-            Sam4sPrint sam4sPrint = app.getPrinter();
+            Sam4sPrint sam4sPrint = new Sam4sPrint();
             try {
-                Log.d("daon_test","print ="+sam4sPrint.getPrinterStatus());
-            } catch (Exception e) {
-                e.printStackTrace();
+                Thread.sleep(300);
+                sam4sPrint.openPrinter(Sam4sPrint.DEVTYPE_ETHERNET, "192.168.0.38", 9100);
+                sam4sPrint.resetPrinter();
+                Log.d("daon_test", "printer status = " + sam4sPrint.getPrinterStatus());
+            } catch (Exception exception) {
+                exception.printStackTrace();
             }
             Sam4sBuilder builder = new Sam4sBuilder("ELLIX30", Sam4sBuilder.LANG_KO);
             try {
@@ -408,7 +412,10 @@ public class PopupOrderActivity extends AppCompatActivity {
                 builder.addTextAlign(Sam4sBuilder.ALIGN_CENTER);
                 builder.addText("감사합니다.");
                 builder.addCut(Sam4sBuilder.CUT_FEED);
-//                sam4sPrint.sendData(builder);
+                sam4sPrint.sendData(builder);
+                Thread.sleep(300);
+                sam4sPrint.closePrinter();
+
 
             } catch (Exception e) {
                 e.printStackTrace();

@@ -1,9 +1,5 @@
 package com.daon.admin_onorder;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
@@ -13,18 +9,16 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.daon.admin_onorder.model.PrintOrderModel;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.sam4s.printer.Sam4sBuilder;
 import com.sam4s.printer.Sam4sPrint;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -46,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     AdminApplication app = new AdminApplication();
     String time;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -133,16 +128,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",  Locale.getDefault());
-        SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd",  Locale.getDefault());
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 
         time = format2.format(calendar.getTime());
         initFirebase();
     }
-    public void initFirebase(){
+
+    public void initFirebase() {
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",  Locale.getDefault());
-        SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd",  Locale.getDefault());
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 
         String time2 = format2.format(calendar.getTime());
         FirebaseDatabase.getInstance().getReference().child("order").child(pref.getString("storename", "")).child(time).addValueEventListener(new ValueEventListener() {
@@ -154,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
 
                     if (printOrderModel.getPrintStatus().equals("x")) {
                         print(printOrderModel);
-                        print2(printOrderModel);
+//                        print2(printOrderModel);
                         printOrderModel.setPrintStatus("o");
                         FirebaseDatabase.getInstance().getReference().child("order").child(pref.getString("storename", "")).child(time).child(item.getKey()).setValue(printOrderModel);
 
@@ -190,95 +186,176 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void print(PrintOrderModel printOrderModel){
-//        if(app.IsConnected1()==false)
-//        {
-//            Sam4sPrint sam4sPrint1 = app.getPrinter();
-//            try {
-//                sam4sPrint1.openPrinter(Sam4sPrint.DEVTYPE_ETHERNET, "192.168.0.100", 9100);
-//                Thread.sleep(300);
-//            } catch (Exception exception) {
-//                exception.printStackTrace();
-//            }
-//            app.setPrinter(sam4sPrint1);
-//        }
-//        if(app.IsConnected2()==false)
-//        {
-//            Sam4sPrint sam4sPrint2 = app.getPrinter2();
-//            try {
-//                sam4sPrint2.openPrinter(Sam4sPrint.DEVTYPE_ETHERNET, "192.168.0.101", 9100);
-//                Thread.sleep(300);
-//            } catch (Exception exception) {
-//                exception.printStackTrace();
-//            }
-//            app.setPrinter2(sam4sPrint2);
-//        }
+    public void print(PrintOrderModel printOrderModel) {
+        isPrinter isPrinter = new isPrinter();
+        Sam4sPrint sam4sPrint = new Sam4sPrint();
+        Sam4sPrint sam4sPrint2 = new Sam4sPrint();
 
-        Sam4sPrint sam4sPrint = app.getPrinter();
-        Sam4sPrint sam4sPrint2 = app.getPrinter2();
+        sam4sPrint = isPrinter.setPrinter1();
+        sam4sPrint2 = isPrinter.setPrinter2();
+
         try {
-            Log.d("daon_test","print ="+sam4sPrint.getPrinterStatus());
+            Log.d("daon_test", "printer = "+sam4sPrint.getPrinterStatus());
+            Log.d("daon_test", "printer = "+sam4sPrint2.getPrinterStatus());
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         Sam4sBuilder builder = new Sam4sBuilder("ELLIX30", Sam4sBuilder.LANG_KO);
         String order = printOrderModel.getOrder();
+        String[] orderArr = printOrderModel.getOrder().split("###");
         order = order.replace("###", "");
         order = order.replace("##", "");
         try {
             builder.addTextAlign(Sam4sBuilder.ALIGN_CENTER);
             builder.addFeedLine(2);
-            builder.addTextSize(3,3);
+            builder.addTextSize(3, 3);
             builder.addText(printOrderModel.getTable());
             builder.addFeedLine(2);
-            builder.addTextSize(2,2);
-            builder.addTextAlign(builder.ALIGN_RIGHT);
+            builder.addTextSize(2, 2);
+            builder.addTextAlign(Sam4sBuilder.ALIGN_RIGHT);
             builder.addText(order);
             builder.addFeedLine(2);
-            builder.addTextSize(1,1);
+            builder.addTextSize(1, 1);
             builder.addText(printOrderModel.getTime());
             builder.addFeedLine(1);
             builder.addCut(Sam4sBuilder.CUT_FEED);
             if (printOrderModel.getTable().contains("주문")) {
                 sam4sPrint.sendData(builder);
                 sam4sPrint2.sendData(builder);
-            }else{
+                if (!order.contains("(현금)")){
+
+                    Sam4sBuilder builder3 = new Sam4sBuilder("ELLIX30", Sam4sBuilder.LANG_KO);
+                    try {
+                        // top
+                        builder3.addTextAlign(Sam4sBuilder.ALIGN_CENTER);
+                        builder3.addFeedLine(2);
+                        builder3.addTextBold(true);
+                        builder3.addTextSize(2, 1);
+                        builder3.addText("신용매출");
+                        builder3.addFeedLine(1);
+                        builder3.addTextBold(false);
+                        builder3.addTextSize(1, 1);
+                        builder3.addTextAlign(Sam4sBuilder.ALIGN_LEFT);
+                        builder3.addText("[고객용]");
+                        builder3.addFeedLine(1);
+                        builder3.addText(printOrderModel.getTime());
+                        builder3.addFeedLine(1);
+                        builder3.addText("돈내코순두부 한림점");
+                        builder3.addFeedLine(1);
+                        builder3.addText("임순옥 \t");
+                        builder3.addText("101-25-66308 \t");
+                        builder3.addText("Tel : 064-796-0517");
+                        builder3.addFeedLine(1);
+                        builder3.addText("제주특별자치도 제주시 한림읍 한상로 72");
+                        builder3.addFeedLine(1);
+                        // body
+                        builder3.addText("------------------------------------------");
+                        builder3.addFeedLine(1);
+                        builder3.addText("TID:\t");
+                        builder3.addText("AT0292221A \t");
+                        builder3.addText("A-0000 \t");
+                        builder3.addText("0017");
+                        builder3.addFeedLine(1);
+                        builder3.addText("카드종류: ");
+                        builder3.addTextSize(2, 1);
+                        builder3.addTextBold(true);
+                        builder3.addText(printOrderModel.getCardname());
+                        builder3.addTextSize(1, 1);
+                        builder3.addTextBold(false);
+                        builder3.addFeedLine(1);
+                        builder3.addText("카드번호: ");
+                        builder3.addText(printOrderModel.getCardnum());
+                        builder3.addFeedLine(1);
+                        builder3.addTextPosition(0);
+                        builder3.addText("거래일시: ");
+                        builder3.addText(printOrderModel.getAuthdate());
+                        builder3.addTextPosition(65535);
+                        builder3.addText("(일시불)");
+                        builder3.addFeedLine(1);
+                        builder3.addText("------------------------------------------");
+                        builder3.addFeedLine(2);
+                        //menu
+                        DecimalFormat myFormatter = new DecimalFormat("###,###");
+
+                        for (int i = 0; i < orderArr.length; i++) {
+                            String arrOrder = orderArr[i];
+                            String[] subOrder = arrOrder.split("##");
+                            builder3.addTextAlign(Sam4sBuilder.ALIGN_LEFT);
+                            builder3.addText(subOrder[0]);
+                            builder3.addText(subOrder[1]);
+                            builder3.addFeedLine(1);
+                            builder3.addTextAlign(Sam4sBuilder.ALIGN_RIGHT);
+                            builder3.addText(subOrder[2]);
+                            builder3.addFeedLine(2);
+                        }
+                        builder3.addText("------------------------------------------");
+                        builder3.addFeedLine(1);
+                        // footer
+                        builder3.addTextAlign(Sam4sBuilder.ALIGN_LEFT);
+                        builder3.addText("IC승인");
+                        builder3.addTextPosition(120);
+                        builder3.addText("금  액 : ");
+                        //builder.addTextPosition(400);
+                        int a = (Integer.parseInt(printOrderModel.getPrice())) / 10;
+                        builder3.addText(myFormatter.format(a * 9) + "원");
+                        builder3.addFeedLine(1);
+                        builder3.addText("DDC매출표");
+                        builder3.addTextPosition(120);
+                        builder3.addText("부가세 : ");
+                        builder3.addText(myFormatter.format(a * 1) + "원");
+                        builder3.addFeedLine(1);
+                        builder3.addTextPosition(120);
+                        builder3.addText("합  계 : ");
+                        builder3.addTextSize(2, 1);
+                        builder3.addTextBold(true);
+                        builder3.addText(myFormatter.format(Integer.parseInt(printOrderModel.getPrice())) + "원");
+                        builder3.addFeedLine(1);
+                        builder3.addTextSize(1, 1);
+                        builder3.addTextPosition(120);
+                        builder3.addText("승인No : ");
+                        builder3.addTextBold(true);
+                        builder3.addTextSize(2, 1);
+                        builder3.addText(printOrderModel.getAuthnum());
+                        builder3.addFeedLine(1);
+                        builder3.addTextBold(false);
+                        builder3.addTextSize(1, 1);
+                        builder3.addText("매입사명 : ");
+                        builder3.addText(printOrderModel.getNotice());
+                        builder3.addFeedLine(1);
+                        builder3.addText("가맹점번호 : ");
+                        builder3.addText("AT0292221A");
+                        builder3.addFeedLine(1);
+                        builder3.addText("거래일련번호 : ");
+                        builder3.addText(printOrderModel.getVantr());
+                        builder3.addFeedLine(1);
+                        builder3.addText("------------------------------------------");
+                        builder3.addFeedLine(1);
+                        builder3.addTextAlign(Sam4sBuilder.ALIGN_CENTER);
+                        builder3.addText("감사합니다.");
+                        builder3.addCut(Sam4sBuilder.CUT_FEED);
+                        sam4sPrint.sendData(builder3);
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            } else {
                 sam4sPrint.sendData(builder);
                 sam4sPrint2.sendData(builder);
             }
             MediaPlayer mp = MediaPlayer.create(getApplicationContext(), R.raw.bell);
             mp.start();
-//            sam4sPrint.closePrinter();
-//            sam4sPrint2.closePrinter();
+
+            isPrinter.closePrint1(sam4sPrint);
+            isPrinter.closePrint2(sam4sPrint2);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
-    class BackThread extends Thread{  // Thread 를 상속받은 작업스레드 생성
-        @Override
-        public void run() {
-            while (true) {
-                Calendar calendar = Calendar.getInstance();
-                SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd",  Locale.getDefault());
-                Log.d("daon_test", String.valueOf(app.getPrinter().IsConnected(Sam4sPrint.DEVTYPE_ETHERNET)));
-                Log.d("daon_test", String.valueOf(app.getPrinter2().IsConnected(Sam4sPrint.DEVTYPE_ETHERNET)));
-                String time_ = format2.format(calendar.getTime());
-                if (time != time_){
-                    time = time_;
-                    initFirebase();
-                }
-                Log.d("daon_test", "time = "+time);
-                try {
-                    Thread.sleep(60000);   // 1000ms, 즉 1초 단위로 작업스레드 실행
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
 
-    public void print2(PrintOrderModel printOrderModel){
+    public void print2(PrintOrderModel printOrderModel) {
 
 //        if(app.IsConnected1()==false)
 //        {
@@ -291,7 +368,7 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //            app.setPrinter(sam4sPrint1);
 //        }
-        Sam4sPrint sam4sPrint = app.getPrinter();
+        Sam4sPrint sam4sPrint = AdminApplication.getPrinter();
         String[] orderArr = printOrderModel.getOrder().split("###");
         Log.d("daon_test", orderArr[0]);
 
@@ -299,7 +376,7 @@ public class MainActivity extends AppCompatActivity {
         order = order.replace("###", "");
         order = order.replace("##", "");
         try {
-            Log.d("daon_test","print ="+sam4sPrint.getPrinterStatus());
+            Log.d("daon_test", "print =" + sam4sPrint.getPrinterStatus());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -309,11 +386,11 @@ public class MainActivity extends AppCompatActivity {
             builder.addTextAlign(Sam4sBuilder.ALIGN_CENTER);
             builder.addFeedLine(2);
             builder.addTextBold(true);
-            builder.addTextSize(2,1);
+            builder.addTextSize(2, 1);
             builder.addText("신용매출");
             builder.addFeedLine(1);
             builder.addTextBold(false);
-            builder.addTextSize(1,1);
+            builder.addTextSize(1, 1);
             builder.addTextAlign(Sam4sBuilder.ALIGN_LEFT);
             builder.addText("[고객용]");
             builder.addFeedLine(1);
@@ -336,10 +413,10 @@ public class MainActivity extends AppCompatActivity {
             builder.addText("0017");
             builder.addFeedLine(1);
             builder.addText("카드종류: ");
-            builder.addTextSize(2,1);
+            builder.addTextSize(2, 1);
             builder.addTextBold(true);
             builder.addText(printOrderModel.getCardname());
-            builder.addTextSize(1,1);
+            builder.addTextSize(1, 1);
             builder.addTextBold(false);
             builder.addFeedLine(1);
             builder.addText("카드번호: ");
@@ -375,29 +452,29 @@ public class MainActivity extends AppCompatActivity {
             builder.addTextPosition(120);
             builder.addText("금  액 : ");
             //builder.addTextPosition(400);
-            int a = (Integer.parseInt(printOrderModel.getPrice()))/10;
-            builder.addText(myFormatter.format(a*9)+"원");
+            int a = (Integer.parseInt(printOrderModel.getPrice())) / 10;
+            builder.addText(myFormatter.format(a * 9) + "원");
             builder.addFeedLine(1);
             builder.addText("DDC매출표");
             builder.addTextPosition(120);
             builder.addText("부가세 : ");
-            builder.addText(myFormatter.format(a*1)+"원");
+            builder.addText(myFormatter.format(a * 1) + "원");
             builder.addFeedLine(1);
             builder.addTextPosition(120);
             builder.addText("합  계 : ");
-            builder.addTextSize(2,1);
+            builder.addTextSize(2, 1);
             builder.addTextBold(true);
-            builder.addText(myFormatter.format(Integer.parseInt(printOrderModel.getPrice()))+"원");
+            builder.addText(myFormatter.format(Integer.parseInt(printOrderModel.getPrice())) + "원");
             builder.addFeedLine(1);
-            builder.addTextSize(1,1);
+            builder.addTextSize(1, 1);
             builder.addTextPosition(120);
             builder.addText("승인No : ");
             builder.addTextBold(true);
-            builder.addTextSize(2,1);
+            builder.addTextSize(2, 1);
             builder.addText(printOrderModel.getAuthnum());
             builder.addFeedLine(1);
             builder.addTextBold(false);
-            builder.addTextSize(1,1);
+            builder.addTextSize(1, 1);
             builder.addText("매입사명 : ");
             builder.addText(printOrderModel.getNotice());
             builder.addFeedLine(1);
@@ -420,9 +497,33 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
     @Override
     public void onBackPressed() {
 
+    }
+
+    class BackThread extends Thread {  // Thread 를 상속받은 작업스레드 생성
+        @Override
+        public void run() {
+            while (true) {
+                Calendar calendar = Calendar.getInstance();
+                SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+//                Log.d("daon_test", String.valueOf(app.getPrinter().IsConnected(Sam4sPrint.DEVTYPE_ETHERNET)));
+//                Log.d("daon_test", String.valueOf(app.getPrinter2().IsConnected(Sam4sPrint.DEVTYPE_ETHERNET)));
+                String time_ = format2.format(calendar.getTime());
+                if (time != time_) {
+                    time = time_;
+//                    initFirebase();
+                }
+                Log.d("daon_test", "time = " + time);
+                try {
+                    Thread.sleep(60000);   // 1000ms, 즉 1초 단위로 작업스레드 실행
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
 

@@ -91,40 +91,6 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
 
-        try {
-            try {
-                printer.openPrinter(Sam4sPrint.DEVTYPE_ETHERNET, "192.168.20.191", 9100);
-                printer.resetPrinter();
-                printer2.openPrinter(Sam4sPrint.DEVTYPE_ETHERNET, "192.168.20.193", 9100);
-                printer2.resetPrinter();
-//                printer.openPrinter(Sam4sPrint.DEVTYPE_ETHERNET, "192.168.20.33", 9100);
-            } catch (Exception e) {
-                e.printStackTrace();
-                Log.d("daon", "print error = "+e.getMessage());
-            }
-
-            if (!printer.IsConnected(Sam4sPrint.DEVTYPE_ETHERNET)){
-                try {
-
-                    Log.d("daon", "print error = "+printer.getPrinterStatus());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }else{
-                try {
-                    Log.d("daon", "aaa = "+printer.getPrinterStatus());
-                    app.setPrinter(printer);
-                    app.setPrinter2(printer2);
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
         loginBtn = findViewById(R.id.loginactivity_btn_login);
 //        loginBtn.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -148,9 +114,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void setFcm(String fcm_id) throws Exception {
-        Log.d("daon_test", "printer1 = "+printer.getPrinterStatus());
-        Log.d("daon_test", "printer2 = "+printer2.getPrinterStatus());
-        if (printer.getPrinterStatus() != null) {
+
+//        if (printer.getPrinterStatus() != null) {
             String str_id = "dncsh";
             String str_pass = "1234";
             Retrofit retrofit = new Retrofit.Builder()
@@ -178,18 +143,18 @@ public class LoginActivity extends AppCompatActivity {
                     Log.d("daon", "fail = " + t.getMessage());
                 }
             });
-        }else{
-            setPrinter();
-        }
+//        }else{
+//            setPrinter();
+//        }
     }
     public void setPrinter(){
         app = new AdminApplication();
         try {
             try {
-                printer.openPrinter(Sam4sPrint.DEVTYPE_ETHERNET, "192.168.0.38", 9100);
-                printer.resetPrinter();
-                printer2.openPrinter(Sam4sPrint.DEVTYPE_ETHERNET, "192.168.0.37", 9100);
-                printer2.resetPrinter();
+//                printer.openPrinter(Sam4sPrint.DEVTYPE_ETHERNET, "192.168.0.38", 9100);
+//                printer.resetPrinter();
+//                printer2.openPrinter(Sam4sPrint.DEVTYPE_ETHERNET, "192.168.0.37", 9100);
+//                printer2.resetPrinter();
                 Log.d("daon_test", "printer1 = "+printer.getPrinterStatus());
                 Log.d("daon_test", "printer2 = "+printer2.getPrinterStatus());
 
@@ -205,8 +170,9 @@ public class LoginActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }else{
-                app.setPrinter(printer);
-                app.setPrinter2(printer2);
+//                app.setPrinter(printer);
+//                app.setPrinter2(printer2);
+
             }
         } catch (Exception e) {
             e.printStackTrace();
